@@ -1,10 +1,11 @@
 from splicer import Table
+from splicer.adapters import Adapter
 
-class MockServer(object):
+class MockAdapter(Adapter):
   def __init__(self):
     
     table = Table(
-      server = self,
+      adapter = self,
       name = 'bogus',
       schema = dict(
         fields = [
@@ -30,6 +31,9 @@ class MockServer(object):
       (name, table.schema)
       for name, table in self._tables.items()
     ]
+
+  def has(self, name):
+    return self._tables.has_key(name)
 
   def get_relation(self, name):
     return self._tables.get(name)

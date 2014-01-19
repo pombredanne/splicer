@@ -1,10 +1,9 @@
 import mimetypes
-from .. import Schema
+from ..schema import Schema
 
 decoders_by_mime_type = {}
 
 def decodes(mime_type):
-
   def wraps(f):
     decoders_by_mime_type[mime_type] = f
     return f
