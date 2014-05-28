@@ -45,9 +45,11 @@ def decode(relation, mime_type,  path_column="path", schema=None):
 
     schema = Schema(
       relation.schema.fields + 
-      relation_from_path(first[field_pos]).schema.fields
+      relation_from_path(first[field_pos], mime_type).schema.fields
     )
     relation = chain((first,), it)
+  else:
+    schema = Schema(relation.schema.fields + schema.fields)
 
   return Relation(
     schema,
@@ -69,7 +71,7 @@ def files(root_dir, filename_column="path"):
     (
       (join(root,f), )
       for root, dirs, files in os.walk(root_dir)
-      for f in files
+      for f in files if not f.startswith('.')
     )
   )
 
